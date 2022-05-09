@@ -16,10 +16,13 @@ class splash : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        supportActionBar?.hide()
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
+
         )
+
 //        appname = findViewById(R.id.app_name)
 //        splashimg = findViewById(R.id.img)
         lottieAnimationView = findViewById(R.id.lottie)
@@ -27,7 +30,7 @@ class splash : AppCompatActivity() {
 //        appname.animate().translationY(2000f).setDuration(1000).startDelay = 5000
         lottieAnimationView!!.animate().translationY(1500f).setDuration(1000).startDelay = 5000
         Handler().postDelayed(
-            { startActivity(Intent(this@splash, MainActivity::class.java)) },
+            { startActivity(Intent(this@splash, Login::class.java)) },
             6000
         )
     }
