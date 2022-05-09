@@ -32,7 +32,7 @@
     <string name="aboutus_message">message</string>
     <string name="moe">barber name</string>
     <string name="appointment">Appointment</string>
-    <string name="default_web_client_id">web_client</string>
+<!--    <string name="default_web_client_id">web_client</string>-->
 
     <string-array name="time_array">
         <item>11:00</item>

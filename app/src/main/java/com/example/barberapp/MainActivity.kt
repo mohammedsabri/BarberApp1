@@ -12,6 +12,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.example.barberapp.auth.LoggedInViewModel
 import com.example.barberapp.auth.Login
 import com.example.barberapp.databinding.ActivityMainBinding
 
@@ -19,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-//    private lateinit var loggedInViewModel : LoggedInViewModel
+  private lateinit var loggedInViewModel : LoggedInViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +49,23 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
+    public override fun onStart() {
+        super.onStart()
+        loggedInViewModel = ViewModelProvider(this).get(LoggedInViewModel::class.java)
+        loggedInViewModel.liveFirebaseUser.observe(this, { firebaseUser ->
+            if (firebaseUser != null) {
+//                updateNavHeader(firebaseUser)
+            }
+        })
 
+            loggedInViewModel.loggedOut.observe(this, { loggedout ->
+                if (loggedout) {
+//                    startActivity(Intent(this, Login::class.java))
+                }
+            })
+
+//        registerImagePickerCallback()
+    }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
@@ -60,7 +78,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun signOut(item: MenuItem) {
-//        loggedInViewModel.logOut()
+        loggedInViewModel.logOut()
         val intent = Intent(this, Login::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)

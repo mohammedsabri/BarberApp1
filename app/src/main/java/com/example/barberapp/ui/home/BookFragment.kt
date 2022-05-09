@@ -6,11 +6,13 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.barberapp.R
+import com.example.barberapp.auth.LoggedInViewModel
 import com.example.barberapp.databinding.FragmentBookBinding
 import com.example.barberapp.main.BookXApp
 import com.example.barberapp.models.BookModel
@@ -24,7 +26,7 @@ class BookFragment : Fragment() {
     private var _fragBinding: FragmentBookBinding? = null
     private val fragBinding get() = _fragBinding!!
     private lateinit var bookViewModel: BookViewModel
-    //private val loggedInViewModel : LoggedInViewModel by activityViewModels()
+    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
     //lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,13 +93,13 @@ class BookFragment : Fragment() {
 
                 val format = SimpleDateFormat("yyyy.MM.dd")
                 val date = format.format(appDate)
-                bookViewModel.addBook(
+
+                bookViewModel.addBook(loggedInViewModel.liveFirebaseUser,
                     BookModel(
                         appDate = date, time = appTime as String,
                         cost = 15, barbername = "Moe",
                         service = "Haircut",
-                        email = "moe@me.com"
-                    )//loggedInViewModel.liveFirebaseUser.value?.email!!)
+                        email = loggedInViewModel.liveFirebaseUser.value?.email!!,                    )//loggedInViewModel.liveFirebaseUser.value?.email!!)
                 )
 
         }
